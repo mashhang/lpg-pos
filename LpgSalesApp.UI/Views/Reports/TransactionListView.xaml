@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="LpgSalesApp.UI.Views.Reports.TransactionListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LpgSalesApp.UI.Converters"
+             xmlns:vm="clr-namespace:LpgSalesApp.UI.Views.Reports"
+             Height="Auto" Width="Auto"
+             Loaded="UserControl_Loaded">
+
+    <!--<UserControl.DataContext>
+        <vm:TransactionListViewModel />
+    </UserControl.DataContext>-->
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Filters -->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10" VerticalAlignment="Center">
+            <TextBlock Text="📅 From:" VerticalAlignment="Center" FontWeight="Bold" Margin="0 0 5 0"/>
+            <DatePicker SelectedDate="{Binding StartDate}" Width="130"/>
+            <TextBlock Text="To:" VerticalAlignment="Center" Margin="10 0 5 0" FontWeight="Bold"/>
+            <DatePicker SelectedDate="{Binding EndDate}" Width="130"/>
+            <Button Content="🔄 Load" Command="{Binding LoadCommand}" Margin="15 0" Width="100" Height="30"
+                    Background="#0078D7" Foreground="White"/>
+        </StackPanel>
+
+        <!-- Transaction Table -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Transactions}" 
+                  SelectedItem="{Binding SelectedTransaction, Mode=TwoWay}"
+                  AutoGenerateColumns="False" Margin="0 10 0 0" FontSize="14"
+                  CanUserAddRows="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="📆 Date" Binding="{Binding TransactionDate, StringFormat=yyyy-MM-dd}" Width="150"/>
+                <DataGridTextColumn Header="🧾 Transaction #" Binding="{Binding Id}" Width="100"/>
+                <DataGridTextColumn Header="👤 Customer" Binding="{Binding CustomerName}" Width="*" />
+                <DataGridTextColumn Header="💵 Total" Binding="{Binding TotalAmount, StringFormat='₱{0:N2}'}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- View Details -->
+        <Button Grid.Row="2" Content="🔍 View Details"
+                Command="{Binding ViewDetailsCommand}"
+                HorizontalAlignment="Right" Width="150" Height="40" Margin="0 15 0 0"
+                Background="#28a745" Foreground="White"/>
+    </Grid>
+</UserControl>

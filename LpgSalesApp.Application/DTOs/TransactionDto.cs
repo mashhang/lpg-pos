@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LpgSalesApp.Application.DTOs;
+
+public class TransactionItemDto
+{
+    public int ProductId { get; set; }
+    public int Quantity { get; set; }
+    public string ProductName { get; set; } = string.Empty;
+    public decimal UnitPrice { get; set; }
+    public decimal Subtotal { get; set; }
+}
+
+public class TransactionDto
+{
+    public int Id { get; set; }
+    public DateTime TransactionDate { get; set; } = DateTime.Now;
+    public decimal TotalAmount { get; set; }
+    public int CustomerId { get; set; }
+    public string? CustomerName { get; set; }
+    public List<TransactionItemDto> Items { get; set; } = new();
+}

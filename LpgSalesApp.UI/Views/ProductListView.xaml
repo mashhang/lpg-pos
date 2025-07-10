@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="LpgSalesApp.UI.Views.ProductListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LpgSalesApp.UI.Converters"
+             xmlns:vm="clr-namespace:LpgSalesApp.UI.ViewModels"
+             Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <local:NullToBoolConverter x:Key="NullToBoolConverter" />
+    </UserControl.Resources>
+
+    <DockPanel Margin="10">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0 0 0 10">
+            <Button Content="Refresh" Command="{Binding RefreshCommand}" Margin="0 0 5 0" />
+            <Button Content="Add" Command="{Binding AddCommand}" Margin="0 0 5 0" />
+            <Button Content="Edit" Command="{Binding EditCommand}" Margin="0 0 5 0"
+                    IsEnabled="{Binding SelectedProduct, Converter={StaticResource NullToBoolConverter}}" />
+            <Button Content="Delete" Command="{Binding DeleteCommand}"
+                    IsEnabled="{Binding SelectedProduct, Converter={StaticResource NullToBoolConverter}}" />
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                  AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="100"/>
+                <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,85 @@
+﻿<Window x:Class="LpgSalesApp.UI.Windows.TransactionFormWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="🛒 LPG Point of Sale"
+        Height="650" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#f9f9f9">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.8*" />
+            <ColumnDefinition Width="3.2*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- LEFT PANEL: PRODUCT ENTRY -->
+        <Border Grid.Column="0" Background="White" Padding="20" CornerRadius="10" BorderBrush="#ccc" BorderThickness="1">
+            <StackPanel VerticalAlignment="Top">
+                <TextBlock Text="🔍 Search Product" FontSize="18" FontWeight="Bold" Margin="0 0 0 10"/>
+                <TextBox Text="{Binding ProductSearchText, UpdateSourceTrigger=PropertyChanged}"
+                         Height="35" FontSize="16" Margin="0 0 0 10" KeyDown="ProductSearchBox_KeyDown"/>
+
+                <ComboBox ItemsSource="{Binding ProductView}" DisplayMemberPath="Name"
+                          SelectedItem="{Binding SelectedProduct}"
+                          Height="40" FontSize="16" />
+
+                <TextBlock Text="🔢 Quantity" FontSize="18" FontWeight="Bold" Margin="0 20 0 10"/>
+                <TextBox Text="{Binding Quantity}" Height="35" FontSize="16"/>
+
+                <Button Content="➕ Add to Cart"
+                        Command="{Binding AddItemCommand}"
+                        Height="45" FontSize="16" Margin="0 20 0 0"
+                        Background="#2d89ef" Foreground="White"/>
+            </StackPanel>
+        </Border>
+
+        <!-- RIGHT PANEL: CART AND CUSTOMER -->
+        <Border Grid.Column="1" Background="White" Padding="20" CornerRadius="10" BorderBrush="#ccc" BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Customer Selection -->
+                <StackPanel Orientation="Vertical" Margin="0 0 0 10">
+                    <TextBlock Text="👤 Search Customer" FontSize="16" FontWeight="Bold"/>
+                    <TextBox Text="{Binding CustomerSearchText, UpdateSourceTrigger=PropertyChanged}"
+                             Height="30" FontSize="14" Margin="0 0 0 5" KeyDown="CustomerSearchBox_KeyDown"/>
+                    <ComboBox ItemsSource="{Binding CustomerView}" DisplayMemberPath="FullName"
+                              SelectedItem="{Binding SelectedCustomer}" FontSize="14" Height="35"/>
+                </StackPanel>
+
+                <!-- Item List -->
+                <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" AutoGenerateColumns="False"
+                          CanUserAddRows="False" FontSize="14" Margin="0 10 0 10" HeadersVisibility="Column"
+                          SelectionMode="Single" Height="350">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="*" />
+                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="60" />
+                        <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice, StringFormat='₱{0:N2}'}" Width="100" />
+                        <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal, StringFormat='₱{0:N2}'}" Width="100" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Total + Buttons -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 20 0 0">
+                    <StackPanel Orientation="Horizontal" Margin="0 0 20 0" VerticalAlignment="Center">
+                        <TextBlock Text="Total:" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalAmount, StringFormat='₱{0:N2}'}" FontSize="22"
+                                   FontWeight="Bold" Foreground="Green" Margin="10 0"/>
+                    </StackPanel>
+
+                    <Button Content="💾 Save Sale" Command="{Binding SaveCommand}"
+                            Width="130" Height="45" FontSize="16"
+                            Background="Green" Foreground="White" Margin="0 0 10 0"/>
+                    <Button Content="❌ Cancel" Click="Cancel_Click"
+                            Width="100" Height="45" FontSize="16"
+                            Background="Gray" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
