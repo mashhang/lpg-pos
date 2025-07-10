@@ -3,22 +3,77 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:LpgSalesApp.UI.Converters"
              xmlns:vm="clr-namespace:LpgSalesApp.UI.ViewModels"
+             Background="White"
              Loaded="UserControl_Loaded">
 
-    <DockPanel Margin="10">
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 10">
-            <Button Content="Refresh" Width="80" Margin="0 0 5 0" Command="{Binding RefreshCommand}" />
-            <Button Content="New Transaction" Width="150" Command="{Binding AddCommand}" />
+    <UserControl.Resources>
+        <!-- Reusable modern button style -->
+        <Style x:Key="ModernGreenButton" TargetType="Button">
+            <Setter Property="Background" Value="#266625" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Width" Value="110" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- DataGrid header styling -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#266625" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Padding" Value="6" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel Margin="20">
+        <!-- Top action buttons -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 15">
+            <Button Content="🔄 Refresh" Style="{StaticResource ModernGreenButton}" Command="{Binding RefreshCommand}" />
+            <Button Content="➕ New Transaction" Style="{StaticResource ModernGreenButton}" Width="170" Command="{Binding AddCommand}" />
         </StackPanel>
 
-        <DataGrid ItemsSource="{Binding Transactions}" AutoGenerateColumns="False" CanUserAddRows="False">
+        <!-- Transaction data table -->
+        <DataGrid ItemsSource="{Binding Transactions}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  FontSize="14"
+                  RowHeight="36"
+                  GridLinesVisibility="None"
+                  AlternatingRowBackground="#F5F5F5"
+                  RowBackground="#FFFFFF"
+                  BorderBrush="#DDD"
+                  BorderThickness="1"
+                  HeadersVisibility="Column"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  Foreground="#333"
+                  >
+
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="Customer" Binding="{Binding CustomerName}" Width="200"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate}" Width="150"/>
-                <DataGridTextColumn Header="Item" Binding="{Binding ProductSummary}" Width="150"/>
-                <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat='₱{0:N2}'}" Width="100"/>
-                <DataGridTextColumn Header="CreatedBy" Binding="{Binding CreatedBy}" Width="150"/>
+                <DataGridTextColumn Header="🆔 ID" Binding="{Binding Id}" Width="50" />
+                <DataGridTextColumn Header="👤 Customer" Binding="{Binding CustomerName}" Width="200" />
+                <DataGridTextColumn Header="📅 Date" Binding="{Binding TransactionDate, StringFormat='yyyy-MM-dd'}" Width="120" />
+                <DataGridTextColumn Header="📦 Item" Binding="{Binding ProductSummary}" Width="200" />
+                <DataGridTextColumn Header="💰 Total" Binding="{Binding TotalAmount, StringFormat='₱{0:N2}'}" Width="110" />
+                <DataGridTextColumn Header="🧑‍💼 Created By" Binding="{Binding CreatedBy}" Width="150" />
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>
