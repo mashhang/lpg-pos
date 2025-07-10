@@ -25,6 +25,7 @@ public class TransactionDto
     public string ProductSummary => Items != null && Items.Any()
     ? string.Join(", ", Items.Select(i => $"{i.ProductName} x{i.Quantity}"))
     : string.Empty;
-
+    public int CreatedByUserId { get; set; }
+    public string? CreatedBy { get; set; }
     public List<TransactionItemDto> Items { get; set; } = new();
 }

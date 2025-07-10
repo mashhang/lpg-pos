@@ -36,6 +36,7 @@
                 <DataGridTextColumn Header="📆 Date" Binding="{Binding TransactionDate, StringFormat=yyyy-MM-dd}" Width="150"/>
                 <DataGridTextColumn Header="🧾 Transaction #" Binding="{Binding Id}" Width="100"/>
                 <DataGridTextColumn Header="👤 Customer" Binding="{Binding CustomerName}" Width="*" />
+                <!--<DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="170" />-->
                 <DataGridTextColumn Header="💵 Total" Binding="{Binding TotalAmount, StringFormat='₱{0:N2}'}" Width="120"/>
             </DataGrid.Columns>
         </DataGrid>

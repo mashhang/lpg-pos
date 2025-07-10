@@ -14,6 +14,7 @@ namespace LpgSalesApp.Infrastructure.Services;
 public class TransactionService : ITransactionService
 {
     private readonly AppDbContext _context;
+    private readonly ICurrentUserService _currentUser;
 
     public TransactionService(AppDbContext context)
     {
@@ -24,6 +25,7 @@ public class TransactionService : ITransactionService
     {
         return await _context.Transactions
             .Include(t => t.Customer)
+            .Include(t => t.CreatedByUser)
             .Include(t => t.Items)
                 .ThenInclude(i => i.Product)
             .Select(t => new TransactionDto
@@ -41,32 +43,12 @@ public class TransactionService : ITransactionService
                     Subtotal = i.Subtotal,
                     // Optionally include product info if needed:
                      UnitPrice = i.Product.Price
-                }).ToList()
+                }).ToList(),
+                CreatedByUserId = t.CreatedByUserId,
+                CreatedBy = t.CreatedByUser.Username,
             }).ToListAsync();
     }
 
-
-    //public async Task<List<TransactionDto>> GetByDateRangeAsync(DateTime start, DateTime end)
-    //{
-    //    return await _context.Transactions
-    //        .Include(t => t.Customer)
-    //        .Include(t => t.Items)
-    //        .Where(t => t.Date >= start && t.Date <= end)
-    //        .Select(t => new TransactionDto
-    //        {
-    //            Id = t.Id,
-    //            CustomerId = t.CustomerId,
-    //            CustomerName = t.Customer.FullName,
-    //            TransactionDate = t.Date,
-    //            TotalAmount = t.TotalAmount,
-    //            Items = t.Items.Select(i => new TransactionItemDto
-    //            {
-    //                ProductId = i.ProductId,
-    //                Quantity = i.Quantity,
-    //                Subtotal = i.Subtotal
-    //            }).ToList()
-    //        }).ToListAsync();
-    //}
     public async Task<List<TransactionDto>> GetByDateRangeAsync(DateTime start, DateTime end)
     {
         var transactions = await _context.Transactions
@@ -86,11 +68,10 @@ public class TransactionService : ITransactionService
                 ProductId = i.ProductId,
                 Quantity = i.Quantity,
                 Subtotal = i.Subtotal
-            }).ToList()
+            }).ToList(),
+            CreatedBy = t.CreatedByUser.Username
         }).ToList();
     }
-
-
 
     public async Task<TransactionDto?> GetByIdAsync(int id)
     {
@@ -111,7 +92,9 @@ public class TransactionService : ITransactionService
                 ProductId = i.ProductId,
                 Quantity = i.Quantity,
                 Subtotal = i.Subtotal
-            }).ToList()
+            }).ToList(),
+            CreatedByUserId = t.CreatedByUserId,
+            CreatedBy = t.CreatedByUser.Username
         };
     }
 
@@ -127,7 +110,10 @@ public class TransactionService : ITransactionService
                 ProductId = i.ProductId,
                 Quantity = i.Quantity,
                 Subtotal = i.Subtotal
-            }).ToList()
+            }).ToList(),
+            CreatedByUserId = _currentUser.UserId ?? throw new Exception("User must be logged in"),
+            ModifiedByUserId = _currentUser.UserId,
+            ModifiedAt = DateTime.Now,
         };
         _context.Transactions.Add(transaction);
 
@@ -145,5 +131,11 @@ public class TransactionService : ITransactionService
         dto.Id = transaction.Id;
         dto.CustomerName = transaction.Customer?.FullName ?? "";
         return dto;
+    }
+
+    public TransactionService(AppDbContext context, ICurrentUserService currentUser)
+    {
+        _context = context;
+        _currentUser = currentUser;
     }
 }

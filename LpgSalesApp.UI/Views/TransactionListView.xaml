@@ -18,6 +18,7 @@
                 <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate}" Width="150"/>
                 <DataGridTextColumn Header="Item" Binding="{Binding ProductSummary}" Width="150"/>
                 <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat='₱{0:N2}'}" Width="100"/>
+                <DataGridTextColumn Header="CreatedBy" Binding="{Binding CreatedBy}" Width="150"/>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

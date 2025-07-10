@@ -3,6 +3,7 @@ using System;
 using LpgSalesApp.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LpgSalesApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250710115952_AddUserTable")]
+    partial class AddUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.7");
@@ -200,7 +203,7 @@ namespace LpgSalesApp.Infrastructure.Migrations
                     b.HasOne("LpgSalesApp.Domain.Entities.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("LpgSalesApp.Domain.Entities.Customer", "Customer")
@@ -211,8 +214,7 @@ namespace LpgSalesApp.Infrastructure.Migrations
 
                     b.HasOne("LpgSalesApp.Domain.Entities.User", "ModifiedByUser")
                         .WithMany()
-                        .HasForeignKey("ModifiedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ModifiedByUserId");
 
                     b.Navigation("CreatedByUser");
 

@@ -1,12 +1,15 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using LpgSalesApp.Application.DTOs;
+using LpgSalesApp.Application.Interfaces;
 using LpgSalesApp.Infrastructure.Persistence;
 using LpgSalesApp.Infrastructure.Services;
-using LpgSalesApp.Application.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+using LpgSalesApp.UI.Services;
+using LpgSalesApp.UI.Views.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
+using System.Data;
+using System.Windows;
 
 namespace LpgSalesApp.UI;
 
@@ -15,7 +18,8 @@ namespace LpgSalesApp.UI;
 /// </summary>
 public partial class App : System.Windows.Application
 {
-    public static IServiceProvider Services { get; private set; } = null;
+    public static IServiceProvider Services { get; private set; } = null!;
+    public static UserDto? CurrentUser { get; set; }
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -27,6 +31,8 @@ public partial class App : System.Windows.Application
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ITransactionService, TransactionService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         Services = services.BuildServiceProvider();
 
@@ -35,14 +41,27 @@ public partial class App : System.Windows.Application
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         DbInitializer.Seed(context);
 
+        //var admin = context.Users.FirstOrDefault(u => u.Username == "admin");
+        //if (admin == null)
+        //{
+        //    MessageBox.Show("Admin user is NOT in the database.");
+        //}
+        //else
+        //{
+        //    MessageBox.Show($"Admin found: {admin.Username}, Role: {admin.Role}");
+        //}
+
         base.OnStartup(e);
+        var login = new LoginWindow();
+        login.Show();
     }
 
-    public App()
-    {
-        var services = new ServiceCollection();
-        services.AddSingleton<ITransactionService, TransactionService>();
-        Services = services.BuildServiceProvider();
-    }
+    //public App()
+    //{
+    //    var services = new ServiceCollection();
+    //    services.AddSingleton<ITransactionService, TransactionService>();
+    //    Services = services.BuildServiceProvider();
+    //}
+
 }
 
