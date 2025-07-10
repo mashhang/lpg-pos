@@ -4,7 +4,7 @@
         xmlns:views="clr-namespace:LpgSalesApp.UI.Views"
         xmlns:reports="clr-namespace:LpgSalesApp.UI.Views.Reports"
         Title="LPG POS" Height="600" Width="900"
-        WindowStartupLocation="CenterScreen" Background="White">
+        WindowStartupLocation="CenterScreen" Background="White" ResizeMode="NoResize">
 
     <TabControl>
         <TabItem Header="🛒 Products">

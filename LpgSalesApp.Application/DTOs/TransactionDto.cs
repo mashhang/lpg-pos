@@ -22,5 +22,9 @@ public class TransactionDto
     public decimal TotalAmount { get; set; }
     public int CustomerId { get; set; }
     public string? CustomerName { get; set; }
+    public string ProductSummary => Items != null && Items.Any()
+    ? string.Join(", ", Items.Select(i => $"{i.ProductName} x{i.Quantity}"))
+    : string.Empty;
+
     public List<TransactionItemDto> Items { get; set; } = new();
 }

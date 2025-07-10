@@ -23,21 +23,28 @@ public class TransactionService : ITransactionService
     public async Task<List<TransactionDto>> GetAllAsync()
     {
         return await _context.Transactions
+            .Include(t => t.Customer)
             .Include(t => t.Items)
+                .ThenInclude(i => i.Product)
             .Select(t => new TransactionDto
             {
                 Id = t.Id,
                 CustomerId = t.CustomerId,
+                CustomerName = t.Customer.FullName,
                 TransactionDate = t.Date,
                 TotalAmount = t.TotalAmount,
                 Items = t.Items.Select(i => new TransactionItemDto
                 {
-                    ProductId = i.ProductId,
+                    //ProductId = i.ProductId,
+                    ProductName = i.Product.Name,
                     Quantity = i.Quantity,
                     Subtotal = i.Subtotal,
+                    // Optionally include product info if needed:
+                     UnitPrice = i.Product.Price
                 }).ToList()
             }).ToListAsync();
     }
+
 
     //public async Task<List<TransactionDto>> GetByDateRangeAsync(DateTime start, DateTime end)
     //{
@@ -71,7 +78,7 @@ public class TransactionService : ITransactionService
         return transactions.Select(t => new TransactionDto
         {
             Id = t.Id,
-            CustomerName = t.Customer.FullName,
+            CustomerName = t.Customer?.FullName,
             TransactionDate = t.Date,
             TotalAmount = t.TotalAmount,
             Items = t.Items.Select(i => new TransactionItemDto
@@ -136,6 +143,7 @@ public class TransactionService : ITransactionService
 
         await _context.SaveChangesAsync();
         dto.Id = transaction.Id;
+        dto.CustomerName = transaction.Customer?.FullName ?? "";
         return dto;
     }
 }

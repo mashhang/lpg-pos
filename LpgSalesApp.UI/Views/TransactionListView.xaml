@@ -16,6 +16,7 @@
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
                 <DataGridTextColumn Header="Customer" Binding="{Binding CustomerName}" Width="200"/>
                 <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate}" Width="150"/>
+                <DataGridTextColumn Header="Item" Binding="{Binding ProductSummary}" Width="150"/>
                 <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat='₱{0:N2}'}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
