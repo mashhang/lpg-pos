@@ -41,5 +41,20 @@ namespace LpgSalesApp.UI.Views.Auth
             if (DataContext is LoginViewModel vm)
                 vm.Password = ((PasswordBox)sender).Password;
         }
+
+        // Event handler for dragging the window
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        // Event handler for the close button
+        private void CloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LpgSalesApp.UI.Views;
+using LpgSalesApp.UI.Views.Auth;
 using LpgSalesApp.UI.Views.Reports; // Make sure this is correct for your Reports.TransactionListView
 using System.Windows;
 using System.Windows.Controls;
@@ -56,6 +57,29 @@ namespace LpgSalesApp.UI
                         // Add more cases for other tabs if needed
                 }
             }
+        }
+
+        public static class SessionManager
+        {
+            public static string CurrentUser { get; set; }
+
+            public static void Clear()
+            {
+                CurrentUser = null;
+            }
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            // Optional: Clear session variables or static user info
+            SessionManager.Clear();
+
+            // Open login window
+            var loginWindow = new LoginWindow();
+            loginWindow.Show();
+
+            // Close the current main window
+            this.Close();
         }
     }
 }

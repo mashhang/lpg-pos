@@ -9,6 +9,7 @@
     <Window.Resources>
         <SolidColorBrush x:Key="PrimaryBlue" Color="#2563EB"/>
         <SolidColorBrush x:Key="DarkBlue" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="LogoColor" Color="#4CAF50"/>
         <SolidColorBrush x:Key="SuccessGreen" Color="#10B981"/>
         <SolidColorBrush x:Key="DarkSuccessGreen" Color="#059669"/>
         <SolidColorBrush x:Key="DangerRed" Color="#EF4444"/>
@@ -208,7 +209,7 @@
                     </Border>
                 </StackPanel>
 
-                <Border Grid.Row="2" Background="{StaticResource PrimaryBlue}" CornerRadius="8" Padding="18" Margin="0 20 0 0">
+                <Border Grid.Row="2" Background="{StaticResource LogoColor}" CornerRadius="8" Padding="18" Margin="0 20 0 0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

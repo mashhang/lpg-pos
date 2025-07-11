@@ -60,14 +60,14 @@
         </Style>
 
         <Style x:Key="ViewDetailsButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseActionButtonStyle}">
-            <Setter Property="Background" Value="#10B981" />
+            <Setter Property="Background" Value="#4CAF50" />
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="BorderBrush" Value="#10B981" />
+            <Setter Property="BorderBrush" Value="#266625" />
             <Setter Property="Width" Value="150" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#059669" />
-                    <Setter Property="BorderBrush" Value="#059669" />
+                    <Setter Property="Background" Value="#266625" />
+                    <Setter Property="BorderBrush" Value="#4CAF50" />
                 </Trigger>
             </Style.Triggers>
         </Style>

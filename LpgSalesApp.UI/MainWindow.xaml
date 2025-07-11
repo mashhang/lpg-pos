@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:LpgSalesApp.UI.Views"
         xmlns:reports="clr-namespace:LpgSalesApp.UI.Views.Reports"
-        Title="LPG POS" Height="900" Width="1300"
+        Title="EDREL" Height="900" Width="1300"
         WindowStartupLocation="CenterScreen" Background="#F0F2F5" ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="NavButtonStyle" TargetType="RadioButton">
@@ -56,9 +56,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Path Data="M19.428 15.428a2 2 0 00-2.828-2.828L15 10.586V10a2 2 0 00-2-2h-2a2 2 0 00-2 2v.586l-1.59 1.59a2 2 0 00-2.828 2.828L5 17.414V18a2 2 0 002 2h10a2 2 0 002-2v-.586l-.572-.572z M10 11V9a2 2 0 012-2m2 4v2a2 2 0 002 2"
-                          Fill="#4CAF50" Stretch="Uniform" Width="28" Height="28" Margin="0 0 8 0"/>
-                    <TextBlock Text="LPG POS" Foreground="#333333" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    <TextBlock Text="EDREL GAS" FontFamily="Cambria" Foreground="#266625" FontSize="32" FontWeight="Bold" VerticalAlignment="Center"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" x:Name="NavButtonsPanel">
@@ -68,11 +66,32 @@
                     <RadioButton Content="History" Style="{StaticResource NavButtonStyle}" Tag="History" Margin="20 0 0 0"/>
                 </StackPanel>
 
-                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="Admin" Foreground="#6B7280" FontSize="16" FontWeight="Medium" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                    <Path Data="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          Fill="#6B7280" Stretch="Uniform" Width="20" Height="20"/>
-                </StackPanel>
+                <Grid Grid.Column="2" HorizontalAlignment="Right">
+                    <ToggleButton x:Name="AdminToggle" Background="Transparent" BorderThickness="0" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Admin" Foreground="#6B7280" FontSize="16" FontWeight="Medium" Margin="0 0 8 0"/>
+                            <Path Data="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  Fill="#4CAF50" Stretch="Uniform" Width="20" Height="20"/>
+                        </StackPanel>
+                    </ToggleButton>
+
+                    <!-- Popup for dropdown -->
+                    <Popup Placement="Bottom" PlacementTarget="{Binding ElementName=AdminToggle}" 
+           IsOpen="{Binding IsChecked, ElementName=AdminToggle}" 
+           StaysOpen="False">
+                        <Border Background="White" BorderBrush="#D1D5DB" BorderThickness="1" CornerRadius="5" Padding="10">
+                            <StackPanel>
+                                <Button Content="Logout" Width="120" Click="Logout_Click"
+                        Background="White" Foreground="#374151"
+                        BorderBrush="#D1D5DB" BorderThickness="1"
+                        HorizontalContentAlignment="Left"
+                        Padding="5 2"
+                        Cursor="Hand"/>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </Grid>
+
             </Grid>
         </Border>
 
