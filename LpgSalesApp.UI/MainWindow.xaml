@@ -3,24 +3,81 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:LpgSalesApp.UI.Views"
         xmlns:reports="clr-namespace:LpgSalesApp.UI.Views.Reports"
-        Title="LPG POS" Height="600" Width="900"
-        WindowStartupLocation="CenterScreen" Background="White" ResizeMode="NoResize">
+        Title="LPG POS" Height="900" Width="1300"
+        WindowStartupLocation="CenterScreen" Background="#F0F2F5" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="NavButtonStyle" TargetType="RadioButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10 15"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#6B7280"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="#4CAF50"/>
+                    <Setter Property="BorderThickness" Value="0 0 0 3"/>
+                    <Setter Property="BorderBrush" Value="#4CAF50"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#333333"/>
+                    <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
-    <TabControl>
-        <TabItem Header="🛒 Products">
-            <views:ProductListView />
-        </TabItem>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <TabItem Header="👥 Customers">
-            <views:CustomerListView />
-        </TabItem>
+        <Border Grid.Row="0" Background="White" BorderBrush="#E0E0E0" BorderThickness="0 0 0 1" Padding="20 15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-        <TabItem Header="💰 Transactions">
-            <views:TransactionListView />
-        </TabItem>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Path Data="M19.428 15.428a2 2 0 00-2.828-2.828L15 10.586V10a2 2 0 00-2-2h-2a2 2 0 00-2 2v.586l-1.59 1.59a2 2 0 00-2.828 2.828L5 17.414V18a2 2 0 002 2h10a2 2 0 002-2v-.586l-.572-.572z M10 11V9a2 2 0 012-2m2 4v2a2 2 0 002 2"
+                          Fill="#4CAF50" Stretch="Uniform" Width="28" Height="28" Margin="0 0 8 0"/>
+                    <TextBlock Text="LPG POS" Foreground="#333333" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                </StackPanel>
 
-        <TabItem Header="📜 History">
-            <reports:TransactionListView />
-        </TabItem>
-    </TabControl>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" x:Name="NavButtonsPanel">
+                    <RadioButton Content="Products" Style="{StaticResource NavButtonStyle}" IsChecked="True" Tag="Products"/>
+                    <RadioButton Content="Customers" Style="{StaticResource NavButtonStyle}" Tag="Customers" Margin="20 0 0 0"/>
+                    <RadioButton Content="Transactions" Style="{StaticResource NavButtonStyle}" Tag="Transactions" Margin="20 0 0 0"/>
+                    <RadioButton Content="History" Style="{StaticResource NavButtonStyle}" Tag="History" Margin="20 0 0 0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Admin" Foreground="#6B7280" FontSize="16" FontWeight="Medium" VerticalAlignment="Center" Margin="0 0 8 0"/>
+                    <Path Data="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          Fill="#6B7280" Stretch="Uniform" Width="20" Height="20"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" Background="#F5F5F5" Padding="20">
+            <ContentControl x:Name="MainContentArea" />
+        </Border>
+    </Grid>
 </Window>

@@ -5,84 +5,288 @@
         Height="430"
         Width="550"
         WindowStartupLocation="CenterScreen"
-        Background="White">
+        Background="#F0F2F5"
+        AllowsTransparency="True"
+        WindowStyle="None">
 
-    <Grid Margin="30 30 30 0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- Title -->
-            <RowDefinition Height="30"/>
-            <!-- Spacer -->
-            <RowDefinition Height="Auto"/>
-            <!-- Full Name -->
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="Auto"/>
-            <!-- Contact Number -->
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="Auto"/>
-            <!-- Address -->
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="Auto"/>
-            <!-- Buttons -->
-        </Grid.RowDefinitions>
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="38" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="8 4" />
+            <Setter Property="BorderBrush" Value="#D1D5DB" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#374151" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="AcceptsReturn" Value="False" />
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Border"
+                                CornerRadius="4"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#9CA3AF"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#2563EB"/>
+                                <Setter TargetName="Border" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="#E5E7EB"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#D1D5DB"/>
+                                <Setter Property="Foreground" Value="#6B7280"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        <!-- Title -->
-        <TextBlock Grid.Row="0" Text="📝 Add New Customer"
-                   FontSize="28"
-                   FontWeight="Bold"
-                   Foreground="#266625"
-                   HorizontalAlignment="Center"
-                   Margin="0 0 0 10" />
+        <Style x:Key="BaseActionButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Padding" Value="15 0" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontSize" Value="14" />
+        </Style>
 
-        <!-- Full Name -->
-        <TextBlock Grid.Row="2" Text="Full Name" FontWeight="SemiBold" Margin="0 20"/>
-        <TextBox Grid.Row="2"
-                 Margin="120 5 0 5"
-                 FontSize="30"
-                 BorderBrush="#266625"
-                 BorderThickness="1"
-                 Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}" />
+        <Style x:Key="PrimaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseActionButtonStyle}">
+            <Setter Property="Background" Value="#10B981" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#10B981" />
+            <Setter Property="Width" Value="100"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#059669" />
+                    <Setter Property="BorderBrush" Value="#059669" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#6EE7B7"/>
+                    <Setter Property="BorderBrush" Value="#6EE7B7"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-        <!-- Contact Number -->
-        <TextBlock Grid.Row="4" Text="Contact Number" FontWeight="SemiBold" Margin="0 20"/>
-        <TextBox Grid.Row="4"
-                 Margin="120 5 0 5"
-                 FontSize="30"
-                 BorderBrush="#266625"
-                 BorderThickness="1"
-                 Text="{Binding ContactNumber, UpdateSourceTrigger=PropertyChanged}" />
+        <Style x:Key="SecondaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseActionButtonStyle}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#4B5563" />
+            <Setter Property="BorderBrush" Value="#D1D5DB" />
+            <Setter Property="Width" Value="80"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F3F4F6" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-        <!-- Address -->
-        <TextBlock Grid.Row="6" Text="Address" FontWeight="SemiBold" Margin="0 20"/>
-        <TextBox Grid.Row="6"
-                 Margin="120 5 0 5"
-                 FontSize="30"
-                 BorderBrush="#266625"
-                 BorderThickness="1"
-                 Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" />
+        <Style x:Key="WindowHeaderStyle" TargetType="Border">
+            <Setter Property="Background" Value="#E5E7EB"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style x:Key="WindowHeaderTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10 0 0 0"/>
+        </Style>
+        <Style x:Key="CloseButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#6B7280"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="0 4 0 0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#EF4444"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
-        <!-- Buttons -->
-        <StackPanel Grid.Row="8"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    Margin="0 10 0 0">
-            <Button Content="💾 Save"
-                    Width="100"
-                    Height="40"
-                    Margin="0 0 10 0"
-                    Background="#266625"
-                    Foreground="White"
-                    FontWeight="Bold"
-                    Command="{Binding SaveCommand}" />
-            <Button Content="❌ Cancel"
-                    Width="100"
-                    Height="40"
-                    Background="White"
-                    Foreground="#266625"
-                    BorderBrush="#266625"
-                    BorderThickness="2"
-                    FontWeight="Bold"
-                    Click="Cancel_Click"/>
-        </StackPanel>
-    </Grid>
+    <Border Background="White" CornerRadius="8" BorderBrush="#E5E7EB" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Style="{StaticResource WindowHeaderStyle}"
+                    CornerRadius="8 8 0 0">
+                <Grid>
+                    <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}"
+                               Style="{StaticResource WindowHeaderTitleStyle}" />
+                    <Button Content="✕" HorizontalAlignment="Right" Style="{StaticResource CloseButtonStyle}" Click="Cancel_Click"/>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="1" Margin="30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <Path Data="M13,9L16,12L13,15V13H7V15L4,12L7,9V11H13V9M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V5H19Z"
+                          Fill="#10B981" Width="28" Height="28" Stretch="Uniform" Margin="0 0 10 0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Add New Customer"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="#10B981"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Full Name" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0 0 20 0" Foreground="#4B5563" FontSize="16"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.Resources>
+                        <VisualBrush x:Key="WatermarkBrush" Stretch="None" AlignmentX="Left">
+                            <VisualBrush.Visual>
+                                <TextBlock Text="e.g., Juan Dela Cruz" Foreground="#9CA3AF" FontStyle="Italic" FontSize="16" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Background" Value="{StaticResource WatermarkBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource WatermarkBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Contact Number" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0 0 20 0" Foreground="#4B5563" FontSize="16"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ContactNumber, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.Resources>
+                        <VisualBrush x:Key="WatermarkBrush" Stretch="None" AlignmentX="Left">
+                            <VisualBrush.Visual>
+                                <TextBlock Text="e.g., 09123456789" Foreground="#9CA3AF" FontStyle="Italic" FontSize="16" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Background" Value="{StaticResource WatermarkBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource WatermarkBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Address" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0 0 20 0" Foreground="#4B5563" FontSize="16"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.Resources>
+                        <VisualBrush x:Key="WatermarkBrush" Stretch="None" AlignmentX="Left">
+                            <VisualBrush.Visual>
+                                <TextBlock Text=" e.g., 123 Main St, Brgy. Sample" Foreground="#9CA3AF" FontStyle="Italic" FontSize="16" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Background" Value="{StaticResource WatermarkBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource WatermarkBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <StackPanel Grid.Row="8" Grid.ColumnSpan="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="0 20 0 0">
+                    <Button Content="Cancel"
+                            Style="{StaticResource SecondaryActionButtonStyle}"
+                            Margin="0 0 10 0"
+                            Click="Cancel_Click">
+                    </Button>
+
+                    <Button
+                            Style="{StaticResource PrimaryActionButtonStyle}"
+                            Command="{Binding SaveCommand}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M17,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3M17,17V10H7V17H17M15,5L18.5,8H17V5M7,5H13V8H7V5Z"
+                                      Fill="White" Width="16" Height="16" Stretch="Uniform" Margin="0 0 8 0"/>
+                                <TextBlock Text="Save"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

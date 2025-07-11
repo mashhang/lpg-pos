@@ -3,25 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:LpgSalesApp.UI.Converters"
              xmlns:vm="clr-namespace:LpgSalesApp.UI.Views.Reports"
-             Background="White"
-             Loaded="UserControl_Loaded">
+             xmlns:controls="clr-namespace:LpgSalesApp.UI.Views.Controls"
+             Background="#F0F2F5" Loaded="UserControl_Loaded">
 
     <UserControl.Resources>
-        <Style x:Key="AccentButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#266625" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="Width" Value="100" />
-            <Setter Property="Height" Value="35" />
-            <Setter Property="Margin" Value="4" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="BorderThickness" Value="0" />
+        <local:NullToBoolConverter x:Key="NullToBoolConverter" />
+
+        <SolidColorBrush x:Key="PopupBorderBrush" Color="{x:Static SystemColors.WindowFrameColor}" />
+        <SolidColorBrush x:Key="PopupBackgroundBrush" Color="{x:Static SystemColors.WindowColor}" />
+        <DropShadowEffect x:Key="PopupDropShadowEffect" ShadowDepth="2" Opacity="0.3" Color="Black" Direction="270" BlurRadius="5" />
+
+        <Style x:Key="BaseActionButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="38" />
+            <Setter Property="Padding" Value="15 0" />
+            <Setter Property="FontWeight" Value="Medium" />
             <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
-                                CornerRadius="6"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter HorizontalAlignment="Center"
@@ -30,14 +31,117 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+        <Style x:Key="RefreshButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseActionButtonStyle}">
+            <Setter Property="Background" Value="#F5F5F5" />
+            <Setter Property="Foreground" Value="#4B5563" />
+            <Setter Property="BorderBrush" Value="#D1D5DB" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Margin" Value="0 0 8 0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E5E7EB" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="PrimaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseActionButtonStyle}">
+            <Setter Property="Background" Value="#2563EB" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#2563EB" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3B82F6" />
+                    <Setter Property="BorderBrush" Value="#3B82F6" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ViewDetailsButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseActionButtonStyle}">
+            <Setter Property="Background" Value="#10B981" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#10B981" />
+            <Setter Property="Width" Value="150" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#059669" />
+                    <Setter Property="BorderBrush" Value="#059669" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ButtonIconStyle" TargetType="Path">
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Height" Value="16"/>
+            <Setter Property="Stretch" Value="Uniform"/>
+            <Setter Property="Margin" Value="0 0 8 0"/>
         </Style>
 
         <Style TargetType="DataGridColumnHeader">
-            <Setter Property="Background" Value="#266625" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontWeight" Value="Medium" />
-            <Setter Property="Padding" Value="6" />
+            <Setter Property="Background" Value="#F9FAFB" />
+            <Setter Property="Foreground" Value="#4B5563" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="12 10" />
+            <Setter Property="BorderBrush" Value="#E5E7EB" />
+            <Setter Property="BorderThickness" Value="0 0 1 1" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
         </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="12 8" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="#374151" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#E0F2FE"/>
+                    <Setter Property="Foreground" Value="#1F2937"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E0F2FE"/>
+                    <Setter Property="Foreground" Value="#1F2937"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Height" Value="45"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F3F4F6"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#E0F2FE"/>
+                    <Setter Property="Foreground" Value="#1F2937"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+
+
     </UserControl.Resources>
 
     <Grid Margin="20">
@@ -47,59 +151,116 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Filter Controls -->
-        <StackPanel Orientation="Horizontal" Margin="0 0 0 10" VerticalAlignment="Center">
-            <TextBlock Text="📅 From:" VerticalAlignment="Center" FontWeight="Bold" Margin="0 0 5 0"/>
-            <DatePicker SelectedDate="{Binding StartDate}" Width="130" Height="30" Margin="0 0 10 0" FontSize="16"/>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 16" VerticalAlignment="Center">
+            <TextBlock Text="From:" VerticalAlignment="Center" Foreground="#4B5563" FontWeight="SemiBold" Margin="0 0 8 0" FontSize="14"/>
+            <controls:CustomDatePicker SelectedDate="{Binding StartDate}" Width="150" Margin="0 0 16 0"/>
 
-            <TextBlock Text="To:" VerticalAlignment="Center" FontWeight="Bold" Margin="10 0 5 0"/>
-            <DatePicker SelectedDate="{Binding EndDate}" Width="130" Height="30" FontSize="16"/>
+            <TextBlock Text="To:" VerticalAlignment="Center" Foreground="#4B5563" FontWeight="SemiBold" Margin="0 0 8 0" FontSize="14"/>
+            <controls:CustomDatePicker SelectedDate="{Binding EndDate}" Width="150" Margin="0 0 16 0"/>
 
-            <Button Content="🔄 Load"
-                    Command="{Binding LoadCommand}"
-                    Style="{StaticResource AccentButtonStyle}"
-                    Background="#0078D7"
-                    Margin="30 0 0 0"/>
-            
-            <!-- Blue for contrast -->
+            <Button Command="{Binding LoadCommand}"
+                    Style="{StaticResource PrimaryActionButtonStyle}"
+                    Margin="24 0 0 0"
+                    Width="180">
+                <StackPanel Orientation="Horizontal">
+                    <Path Style="{StaticResource ButtonIconStyle}" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                          Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/>
+                    <TextBlock Text="Load Transactions"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
-        <!-- DataGrid for Transactions -->
-        <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding Transactions}"
-                  SelectedItem="{Binding SelectedTransaction, Mode=TwoWay}"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  IsReadOnly="True"
-                  FontSize="15"
-                  RowBackground="#F9F9F9"
-                  AlternatingRowBackground="#EFEFEF"
-                  GridLinesVisibility="None"
-                  BorderBrush="#DDD"
-                  BorderThickness="1"
-                  Margin="0 10 0 0"
-                  RowHeight="35"
-                  ColumnHeaderHeight="38"
-                  HeadersVisibility="Column">
+        <Border Grid.Row="1" Background="White" CornerRadius="8" BorderBrush="#E5E7EB" BorderThickness="1">
+            <DataGrid ItemsSource="{Binding Transactions}"
+                      SelectedItem="{Binding SelectedTransaction, Mode=TwoWay}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="None"
+                      Background="Transparent"
+                      RowBackground="White"
+                      AlternatingRowBackground="#F9FAFB"
+                      BorderThickness="0"
+                      FontSize="14"
+                      Foreground="#374151"
+                      CanUserResizeRows="False"
+                      CanUserResizeColumns="False"
+                      CanUserReorderColumns="False">
 
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="📆 Date" Binding="{Binding TransactionDate, StringFormat=yyyy-MM-dd}" Width="110"/>
-                <DataGridTextColumn Header="🧾 Trans. #" Binding="{Binding Id}" Width="100"/>
-                <DataGridTextColumn Header="👤 Customer" Binding="{Binding CustomerName}" Width="*" />
-                <DataGridTextColumn Header="💵 Total" Binding="{Binding TotalAmount, StringFormat='₱{0:N2}'}" Width="120"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}"/>
+                    <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}"/>
+                    <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}"/>
+                </DataGrid.Resources>
 
-        <!-- View Details Button -->
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="DATE" Binding="{Binding TransactionDate, StringFormat='MM-dd-yyyy'}" Width="110">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="TRANS. #" Binding="{Binding Id}" Width="80">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="CUSTOMER" Binding="{Binding CustomerName}" Width="*">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="TOTAL" Binding="{Binding TotalAmount, StringFormat='₱{0:N2}'}" Width="120">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
         <Button Grid.Row="2"
-                Content="🔍 View Details"
                 Command="{Binding ViewDetailsCommand}"
+                Style="{StaticResource ViewDetailsButtonStyle}"
                 HorizontalAlignment="Right"
-                Width="160"
-                Height="40"
                 Margin="0 20 0 0"
-                Style="{StaticResource AccentButtonStyle}"
-                Background="#28a745"/>
-        <!-- Green for success/details -->
+                IsEnabled="{Binding SelectedTransaction, Converter={StaticResource NullToBoolConverter}}">
+            <StackPanel Orientation="Horizontal">
+                <Path Style="{StaticResource ButtonIconStyle}" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                      Data="M12,9A3,3 0 0,0 15,12A3,3 0 0,0 12,15A3,3 0 0,0 9,12A3,3 0 0,0 12,9M12,4.5C17,4.5 21.38,7.11 23.5,12C21.38,16.89 17,19.5 12,19.5C7,19.5 2.62,16.89 0.5,12C2.62,7.11 7,4.5 12,4.5M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3Z" />
+                <TextBlock Text="View Details"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

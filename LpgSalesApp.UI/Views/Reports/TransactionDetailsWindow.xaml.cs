@@ -25,5 +25,18 @@ namespace LpgSalesApp.UI.Views.Reports
             InitializeComponent();
             DataContext = dto;
         }
+
+        private void CloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void WindowHeader_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
     }
 }

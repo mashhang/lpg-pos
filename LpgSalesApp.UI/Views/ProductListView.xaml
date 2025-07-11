@@ -4,83 +4,319 @@
              xmlns:local="clr-namespace:LpgSalesApp.UI.Converters"
              xmlns:vm="clr-namespace:LpgSalesApp.UI.ViewModels"
              Loaded="UserControl_Loaded"
-             Background="White">
+             Background="#F0F2F5">
 
     <UserControl.Resources>
         <local:NullToBoolConverter x:Key="NullToBoolConverter" />
 
-        <!-- Reusable Button Style -->
-        <Style x:Key="ModernButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#266625" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Width" Value="110" />
-            <Setter Property="Height" Value="35" />
-            <Setter Property="Margin" Value="4" />
-            <Setter Property="FontWeight" Value="Normal" />
+        <Style x:Key="BaseActionButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="38" />
+            <Setter Property="Padding" Value="15 0" />
+            <Setter Property="FontWeight" Value="Medium" />
             <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
-                                CornerRadius="6"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                BorderBrush="{TemplateBinding BorderBrush}">
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
+
+        <Style x:Key="AddProductButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseActionButtonStyle}">
+            <Setter Property="Background" Value="#4CAF50" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#4CAF50" />
+            <Setter Property="Width" Value="130" />
+            <Setter Property="Margin" Value="8 0 0 0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#43A047" />
+                    <Setter Property="BorderBrush" Value="#43A047" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="RefreshButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseActionButtonStyle}">
+            <Setter Property="Background" Value="#F5F5F5" />
+            <Setter Property="Foreground" Value="#4B5563" />
+            <Setter Property="BorderBrush" Value="#D1D5DB" />
+            <Setter Property="Width" Value="100" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E5E7EB" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="EditButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseActionButtonStyle}">
+            <Setter Property="Background" Value="#F5F5F5" />
+            <Setter Property="Foreground" Value="#4B5563" />
+            <Setter Property="BorderBrush" Value="#D1D5DB" />
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="0 0 8 0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E5E7EB" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DeleteButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseActionButtonStyle}">
+            <Setter Property="Background" Value="#FEF2F2" />
+            <Setter Property="Foreground" Value="#DC2626" />
+            <Setter Property="BorderBrush" Value="#FCA5A5" />
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FEE2E2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F9FAFB" />
+            <Setter Property="Foreground" Value="#4B5563" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="12 10" />
+            <Setter Property="BorderBrush" Value="#E5E7EB" />
+            <Setter Property="BorderThickness" Value="0 0 1 1" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="12 8" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="#374151" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#E0F2FE"/>
+                    <Setter Property="Foreground" Value="#1F2937"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E0F2FE"/>
+                    <Setter Property="Foreground" Value="#1F2937"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Height" Value="45"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F3F4F6"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ButtonIconStyle" TargetType="Path">
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Height" Value="16"/>
+            <Setter Property="Stretch" Value="Uniform"/>
+            <Setter Property="Margin" Value="0 0 8 0"/>
+        </Style>
+
+        <Style x:Key="DataGridCellIconStyle" TargetType="Path">
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Height" Value="16"/>
+            <Setter Property="Stretch" Value="Uniform"/>
+        </Style>
+
     </UserControl.Resources>
 
-    <DockPanel Margin="20">
-        <!-- Header Buttons -->
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0 0 0 15">
-            <Button Content="🔄 Refresh" Style="{StaticResource ModernButtonStyle}" Command="{Binding RefreshCommand}" />
-            <Button Content="➕ Add" Style="{StaticResource ModernButtonStyle}" Command="{Binding AddCommand}" />
-            <Button Content="✏️ Edit" Style="{StaticResource ModernButtonStyle}"
-                    Command="{Binding EditCommand}"
-                    IsEnabled="{Binding SelectedProduct, Converter={StaticResource NullToBoolConverter}}" />
-            <Button Content="🗑 Delete" Style="{StaticResource ModernButtonStyle}"
-                    Background="White" Foreground="#266625" BorderBrush="#266625" BorderThickness="2"
-                    Command="{Binding DeleteCommand}"
-                    IsEnabled="{Binding SelectedProduct, Converter={StaticResource NullToBoolConverter}}" />
-        </StackPanel>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <!-- Data Grid -->
-        <DataGrid ItemsSource="{Binding Products}"
-                  SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  HeadersVisibility="Column"
-                  GridLinesVisibility="None"
-                  Background="White"
-                  RowBackground="#F7F7F7"
-                  AlternatingRowBackground="#EEEEEE"
-                  BorderThickness="1"
-                  BorderBrush="#DDD"
-                  FontSize="16"
-                  Foreground="#333"
-                  RowHeight="35">
-            <DataGrid.Resources>
-                <Style TargetType="DataGridColumnHeader">
-                    <Setter Property="Background" Value="#266625" />
-                    <Setter Property="Foreground" Value="White" />
-                    <Setter Property="FontWeight" Value="SemiBold" />
-                    <Setter Property="Padding" Value="5" />
-                </Style>
-            </DataGrid.Resources>
+        <Grid Grid.Row="0" Margin="0 0 0 16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="30"/>
-                <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="250"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="130"/>
-                <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Style="{StaticResource RefreshButtonStyle}" Command="{Binding RefreshCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Style="{StaticResource ButtonIconStyle}" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                              Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/>
+                        <TextBlock Text="Refresh"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource AddProductButtonStyle}" Command="{Binding AddCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Style="{StaticResource ButtonIconStyle}" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                              Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+                        <TextBlock Text="Add Product"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Style="{StaticResource EditButtonStyle}"
+                        Command="{Binding EditCommand}"
+                        IsEnabled="{Binding SelectedProduct, Converter={StaticResource NullToBoolConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Style="{StaticResource ButtonIconStyle}" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                              Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"/>
+                        <TextBlock Text="Edit"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource DeleteButtonStyle}"
+                        Command="{Binding DeleteCommand}"
+                        IsEnabled="{Binding SelectedProduct, Converter={StaticResource NullToBoolConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Style="{StaticResource ButtonIconStyle}" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                              Data="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H16V19H8V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" />
+                        <TextBlock Text="Delete"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="1" Background="White" CornerRadius="8" Padding="0" BorderBrush="#E5E7EB" BorderThickness="1">
+            <DataGrid ItemsSource="{Binding Products}"
+                      SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserResizeRows="False"
+                      CanUserResizeColumns="False"
+                      CanUserReorderColumns="False"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="None"
+                      Background="Transparent"
+                      RowBackground="White"
+                      AlternatingRowBackground="#F9FAFB"
+                      BorderThickness="0"
+                      FontSize="14"
+                      Foreground="#374151">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}"/>
+                    <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}"/>
+                    <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}"/>
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="PRODUCT NAME" Binding="{Binding Name}" Width="*">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="PRICE" Binding="{Binding Price, StringFormat='₱{0:N2}'}" Width="150">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="STOCK" Binding="{Binding Stock}" Width="100">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Header="ACTIONS" Width="SizeToCells" MinWidth="120">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="Padding" Value="12 10 20 10"/>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EditCommand}"
+                        CommandParameter="{Binding}"
+                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                        Background="Transparent" BorderThickness="0" Padding="0" Margin="0 0 24 0">
+                                        <Path Data="M11.05 4.54L17.46 10.95C17.78 11.27 17.78 11.8 17.46 12.12L12.12 17.46C11.8 17.78 11.27 17.78 10.95 17.46L4.54 11.05C4.22 10.73 4.22 10.2 4.54 9.88L9.88 4.54C10.2 4.22 10.73 4.22 11.05 4.54ZM18.96 3.04L20.96 5.04C21.28 5.36 21.28 5.89 20.96 6.21L18.79 8.38L15.62 5.21L17.79 3.04C18.11 2.72 18.64 2.72 18.96 3.04Z"
+                          Fill="#4CAF50" Style="{StaticResource DataGridCellIconStyle}"/>
+                                    </Button>
+                                    <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.DeleteCommand}"
+                        CommandParameter="{Binding}"
+                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                        Background="Transparent" BorderThickness="0" Padding="0">
+                                        <Path Data="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                          Fill="#DC2626" Style="{StaticResource DataGridCellIconStyle}"/>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
 </UserControl>
