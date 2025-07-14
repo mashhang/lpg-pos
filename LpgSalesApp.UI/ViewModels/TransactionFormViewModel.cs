@@ -30,6 +30,17 @@ public class TransactionFormViewModel : INotifyPropertyChanged
 
     public decimal TotalAmount => Items.Sum(i => i.Subtotal);
 
+    private string _remarks;
+    public string Remarks
+    {
+        get => _remarks;
+        set
+        {
+            _remarks = value;
+            OnPropertyChanged(nameof(Remarks));
+        }
+    }
+
     public ICommand AddItemCommand { get; }
     public ICommand SaveCommand { get; }
 
@@ -115,7 +126,8 @@ public class TransactionFormViewModel : INotifyPropertyChanged
             CustomerId = SelectedCustomer.Id,
             Items = Items.ToList(),
             TransactionDate = DateTime.Now,
-            TotalAmount = TotalAmount
+            TotalAmount = TotalAmount,
+            Remarks = Remarks,
         };
 
         await _transactionService.CreateAsync(dto);

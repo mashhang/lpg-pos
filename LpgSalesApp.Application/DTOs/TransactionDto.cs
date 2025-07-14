@@ -9,8 +9,8 @@ namespace LpgSalesApp.Application.DTOs;
 public class TransactionItemDto
 {
     public int ProductId { get; set; }
-    public int Quantity { get; set; }
     public string ProductName { get; set; } = string.Empty;
+    public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
     public decimal Subtotal { get; set; }
 }
@@ -18,10 +18,12 @@ public class TransactionItemDto
 public class TransactionDto
 {
     public int Id { get; set; }
+    public string ProductName { get; set; } = string.Empty;
     public DateTime TransactionDate { get; set; } = DateTime.Now;
     public decimal TotalAmount { get; set; }
     public int CustomerId { get; set; }
     public string? CustomerName { get; set; }
+    public string? Remarks { get; set; }
     public string ProductSummary => Items != null && Items.Any()
     ? string.Join(", ", Items.Select(i => $"{i.ProductName} x{i.Quantity}"))
     : string.Empty;

@@ -41,8 +41,7 @@ public class TransactionService : ITransactionService
                     ProductName = i.Product.Name,
                     Quantity = i.Quantity,
                     Subtotal = i.Subtotal,
-                    // Optionally include product info if needed:
-                     UnitPrice = i.Product.Price
+                    UnitPrice = i.Product.Price
                 }).ToList(),
                 CreatedByUserId = t.CreatedByUserId,
                 CreatedBy = t.CreatedByUser.Username,
@@ -54,6 +53,7 @@ public class TransactionService : ITransactionService
         var transactions = await _context.Transactions
             .Include(t => t.Customer)
             .Include(t => t.Items)
+                .ThenInclude (i => i.Product)
             .Where(t => t.Date >= start && t.Date < end.AddDays(1))
             .ToListAsync();
 
@@ -66,9 +66,12 @@ public class TransactionService : ITransactionService
             Items = t.Items.Select(i => new TransactionItemDto
             {
                 ProductId = i.ProductId,
+                ProductName = i.ProductName,
                 Quantity = i.Quantity,
+                UnitPrice = i.UnitPrice,
                 Subtotal = i.Subtotal
             }).ToList(),
+            Remarks= t.Remarks,
             CreatedBy = t.CreatedByUser.Username
         }).ToList();
     }
@@ -77,6 +80,7 @@ public class TransactionService : ITransactionService
     {
         var t = await _context.Transactions
             .Include(t => t.Items)
+                .ThenInclude(i => i.Product)
             .FirstOrDefaultAsync(t => t.Id == id);
 
         if (t == null) return null;
@@ -90,10 +94,13 @@ public class TransactionService : ITransactionService
             Items = t.Items.Select(i => new TransactionItemDto
             {
                 ProductId = i.ProductId,
+                ProductName = i.Product.Name,
                 Quantity = i.Quantity,
+                UnitPrice = i.UnitPrice,
                 Subtotal = i.Subtotal
             }).ToList(),
             CreatedByUserId = t.CreatedByUserId,
+            Remarks = t.Remarks,
             CreatedBy = t.CreatedByUser.Username
         };
     }
@@ -105,9 +112,12 @@ public class TransactionService : ITransactionService
             CustomerId = dto.CustomerId,
             Date = DateTime.Now,
             TotalAmount = dto.TotalAmount,
+            Remarks = dto.Remarks,
             Items = dto.Items.Select(i => new TransactionItem
             {
                 ProductId = i.ProductId,
+                ProductName = i.ProductName,
+                UnitPrice = i.UnitPrice,
                 Quantity = i.Quantity,
                 Subtotal = i.Subtotal
             }).ToList(),

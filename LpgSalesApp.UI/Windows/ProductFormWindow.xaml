@@ -173,6 +173,12 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <VisualBrush x:Key="WatermarkBrush" Stretch="None" AlignmentX="Left">
+            <VisualBrush.Visual>
+                <TextBlock Text="e.g., 5kg LPG Tank" Foreground="#9CA3AF" FontStyle="Italic" FontSize="16" />
+            </VisualBrush.Visual>
+        </VisualBrush>
     </Window.Resources>
 
     <Border Background="White" CornerRadius="8" BorderBrush="#E5E7EB" BorderThickness="1">
@@ -221,13 +227,7 @@
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Product Name" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0 0 20 0" Foreground="#4B5563" FontSize="16"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextChanged="NameTextBox_TextChanged">
-                    <TextBox.Resources>
-                        <VisualBrush x:Key="WatermarkBrush" Stretch="None" AlignmentX="Left">
-                            <VisualBrush.Visual>
-                                <TextBlock Text="e.g., 5kg LPG Tank" Foreground="#9CA3AF" FontStyle="Italic" FontSize="16" />
-                            </VisualBrush.Visual>
-                        </VisualBrush>
-                    </TextBox.Resources>
+                  
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                             <Style.Triggers>

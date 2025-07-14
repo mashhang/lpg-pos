@@ -14,6 +14,7 @@ public class Transaction
     public int CustomerId { get; set; }
 
     public Customer? Customer { get; set; }
+    public string? Remarks { get; set; }
     public ICollection<TransactionItem> Items { get; set; } = new List<TransactionItem>();
 
     public int CreatedByUserId { get; set; }
