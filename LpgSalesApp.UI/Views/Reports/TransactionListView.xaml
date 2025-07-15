@@ -158,6 +158,16 @@
             <TextBlock Text="To:" VerticalAlignment="Center" Foreground="#4B5563" FontWeight="SemiBold" Margin="0 0 8 0" FontSize="14"/>
             <controls:CustomDatePicker SelectedDate="{Binding EndDate}" Width="150" Margin="0 0 16 0"/>
 
+            <TextBox Width="200"
+             Text="{Binding CustomerSearchText, UpdateSourceTrigger=PropertyChanged}"
+             FontSize="14"
+             Padding="6"
+             Margin="0 0 16 0"
+             VerticalContentAlignment="Center"
+             Background="White"
+             BorderBrush="#D1D5DB"
+             BorderThickness="1"/>
+            
             <Button Command="{Binding LoadCommand}"
                     Style="{StaticResource PrimaryActionButtonStyle}"
                     Margin="24 0 0 0"

@@ -1,7 +1,9 @@
 ﻿using LpgSalesApp.Application.Interfaces;
+using LpgSalesApp.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,11 +35,12 @@ namespace LpgSalesApp.UI.Views.Reports
         }
 
         // Optional: Handle Loaded event to auto-load data
-        private async void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (DataContext is TransactionListViewModel vm)
             {
-                await vm.LoadAsync();
+                await vm.LoadAsync(); // ✅ this works, and it's clean
             }
         }
     }
