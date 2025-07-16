@@ -1,8 +1,11 @@
 ﻿using LpgSalesApp.UI.Views;
 using LpgSalesApp.UI.Views.Auth;
+using LpgSalesApp.UI.Views.Admin;
+using LpgSalesApp.UI.ViewModels.Admin;
 using LpgSalesApp.UI.Views.Reports; // Make sure this is correct for your Reports.TransactionListView
 using System.Windows;
 using System.Windows.Controls;
+using LpgSalesApp.Application.DTOs;
 
 namespace LpgSalesApp.UI
 {
@@ -11,10 +14,24 @@ namespace LpgSalesApp.UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly UserDto _currentUser;
+
+        public MainWindow(UserDto currentUser)
         {
             InitializeComponent();
+            _currentUser = currentUser;
             this.Loaded += MainWindow_Loaded;
+
+            // Show Users tab only for Admins
+            if (_currentUser.Role == "Admin")
+                ManageUsersTab.Visibility = Visibility.Visible;
+
+            // Register radio button events
+            foreach (var child in NavButtonsPanel.Children)
+            {
+                if (child is RadioButton radio)
+                    radio.Checked += NavRadioButton_Checked;
+            }
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -31,6 +48,11 @@ namespace LpgSalesApp.UI
                     rb.Checked += NavRadioButton_Checked;
                 }
             }
+        }
+
+        public void NavigateToPage(UserControl view)
+        {
+            MainContentArea.Content = view;
         }
 
         private void NavRadioButton_Checked(object sender, RoutedEventArgs e)
@@ -54,7 +76,9 @@ namespace LpgSalesApp.UI
                         // Ensure this path is correct if TransactionListView is in a sub-namespace
                         MainContentArea.Content = new Views.Reports.TransactionListView();
                         break;
-                        // Add more cases for other tabs if needed
+                    case "Users":
+                        MainContentArea.Content = new Views.Admin.UserManagementView();
+                        break;
                 }
             }
         }

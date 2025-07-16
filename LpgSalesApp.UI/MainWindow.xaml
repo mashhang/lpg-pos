@@ -64,6 +64,8 @@
                     <RadioButton Content="Customers" Style="{StaticResource NavButtonStyle}" Tag="Customers" Margin="20 0 0 0"/>
                     <RadioButton Content="Transactions" Style="{StaticResource NavButtonStyle}" Tag="Transactions" Margin="20 0 0 0"/>
                     <RadioButton Content="History" Style="{StaticResource NavButtonStyle}" Tag="History" Margin="20 0 0 0"/>
+
+                    <RadioButton x:Name="ManageUsersTab" Content="Users" Style="{StaticResource NavButtonStyle}" Tag="Users" Margin="20 0 0 0" Visibility="Collapsed"/>
                 </StackPanel>
 
                 <Grid Grid.Column="2" HorizontalAlignment="Right">

@@ -29,7 +29,7 @@ namespace LpgSalesApp.UI.Views.Auth
 
             DataContext = new LoginViewModel(userService!, () =>
             {
-                var main = new MainWindow();
+                var main = new MainWindow(App.CurrentUser!);
                 main.Show();
 
                 this.Close(); // close login window

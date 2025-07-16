@@ -11,12 +11,14 @@ namespace LpgSalesApp.Infrastructure.Persistence;
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-    public DbSet<User> Users { get; set; }
+    //public DbSet<User> Users { get; set; }
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<TransactionItem> TransactionItems => Set<TransactionItem>();
     public DbSet<InventoryLog> InventoryLogs => Set<InventoryLog>();
+    public DbSet<AppUser> Users { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -24,11 +26,11 @@ public class AppDbContext : DbContext
         // optional: Fluent API configs can go here
 
         // Seed default admin user
-        modelBuilder.Entity<User>().HasData(new User
+        modelBuilder.Entity<AppUser>().HasData(new AppUser
         {
             Id = 1,
             Username = "admin",
-            PasswordHash = ComputeSha256Hash("zxcvbnm"),
+            PasswordHash = ComputeSha256Hash("qwe"),
             Role = "Admin"
         });
 
